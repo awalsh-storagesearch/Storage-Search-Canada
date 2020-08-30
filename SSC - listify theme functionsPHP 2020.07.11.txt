@@ -1,0 +1,47 @@
+<?php
+/**
+ * Listify child theme.
+ */
+function listify_child_styles() {
+    wp_enqueue_style( 'listify-child', get_stylesheet_uri() );
+}
+add_action( 'wp_enqueue_scripts', 'listify_child_styles', 999 );
+
+/** Place any new code below this line */
+
+/* this code removed the add photos link on each listing AW 2020.06.15*/
+/**
+ * Plugin Name: Listify - Remove "Add Photos" Link
+ */
+
+function custom_listify_remove_action_links() { 
+ global $listify_job_manager;
+ 
+ remove_action( 'listify_single_job_listing_actions_start', array( $listify_job_manager->gallery, 'add_link' ) );
+
+}
+add_action( 'init', 'custom_listify_remove_action_links' );
+/* end of new code 2020.06.15 -AW */
+
+//This snippet of code adds 'per month' behind all the pricing on my site - AW 2020.07.11
+/**
+ * @snippet       Adds suffix to WooCommerce prices
+ * @how-to        Get CustomizeWoo.com FREE
+ * @author        Rodolfo Melogli
+ * @compatible    WooCommerce 3.8
+ * @donate $9     https://businessbloomer.com/bloomer-armada/
+ */
+   
+add_filter( 'woocommerce_get_price_suffix', 'bbloomer_add_price_suffix', 99, 4 );
+  
+function bbloomer_add_price_suffix( $html, $product, $price, $qty ){
+    $html .= ' per month';
+    return $html;
+}
+// end of code AW 2020.07.11
+
+//This snippet of code removes related products on the single product page - AW 2020.07.11
+// from the woocommerce website https://docs.woocommerce.com/document/remove-related-posts-output/
+// Remove related products output
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+// end of code AW 2020.07.11
